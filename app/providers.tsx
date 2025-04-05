@@ -12,21 +12,21 @@ const queryClient = new QueryClient();
 export function Providers({ children }: { children: React.ReactNode }) {
   const myCustomTheme: Theme = {
     blurs: {
-      modalOverlay: "blur(0px)"
+      modalOverlay: "blur(0px)",
     },
     colors: {
       accentColor: "#AFFF81",
-      accentColorForeground: "#000000",
+      accentColorForeground: "#252525",
       actionButtonBorder: "#AFFF81",
       actionButtonBorderMobile: "#AFFF81",
       actionButtonSecondaryBackground: "#AFFF81",
-      closeButton: "#000000",
+      closeButton: "#252525",
       closeButtonBackground: "#AFFF81",
       connectButtonBackground: "#AFFF81",
       connectButtonBackgroundError: "#AFFF81",
       connectButtonInnerBackground: "#AFFF81",
-      connectButtonText: "#000",
-      connectButtonTextError: "#000",
+      connectButtonText: "#252525",
+      connectButtonTextError: "#252525",
       connectionIndicator: "#AFFF81",
       downloadBottomCardBackground: "#AFFF81",
       downloadTopCardBackground: "#AFFF81",
@@ -37,24 +37,24 @@ export function Providers({ children }: { children: React.ReactNode }) {
       modalBackdrop: "rgba(0, 0, 0, 0.5)",
       modalBackground: "#AFFF81",
       modalBorder: "#AFFF81",
-      modalText: "#000",
-      modalTextDim: "#000",
-      modalTextSecondary: "#000",
+      modalText: "#252525",
+      modalTextDim: "#252525",
+      modalTextSecondary: "#252525",
       profileAction: "#AFFF81",
       profileActionHover: "#90EE90",
-      profileForeground: "#000000",
+      profileForeground: "#AFFF81",
       selectedOptionBorder: "#AFFF81",
-      standby: "#AFFF81"
+      standby: "#AFFF81",
     },
     fonts: {
-      body: "Geist"
+      body: "Geist",
     },
     radii: {
       actionButton: "0px",
       connectButton: "0px",
       menuButton: "9999px",
       modal: "24px",
-      modalMobile: "28px"
+      modalMobile: "28px",
     },
     shadows: {
       connectButton: "0px 4px 12px rgba(0, 0, 0, 0.1)",
@@ -62,8 +62,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
       profileDetailsAction: "0px 2px 6px rgba(37, 41, 46, 0.04)",
       selectedOption: "0px 2px 6px rgba(0, 0, 0, 0.24)",
       selectedWallet: "0px 2px 6px rgba(0, 0, 0, 0.12)",
-      walletLogo: "0px 2px 16px rgba(0, 0, 0, 0.16)"
-    }
+      walletLogo: "0px 2px 16px rgba(0, 0, 0, 0.16)",
+    },
   };
   return (
     <WagmiProvider config={config}>

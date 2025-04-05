@@ -86,8 +86,8 @@ export default function AppHero() {
                     <span className="text-sm">Purchase Your Ticket</span>
                     <span className="dark:border-background block h-4 w-0.5 border-l bg-white dark:bg-zinc-700"></span>
 
-                    <div className="group-hover:bg-muted size-6 overflow-hidden rounded-full duration-500">
-                      <div className="flex w-12 -translate-x-1/2 duration-500 ease-in-out group-hover:translate-x-0">
+                    <div className="group-hover:bg-[#AFFF81]  size-6 overflow-hidden rounded-full duration-500">
+                      <div className="flex w-12 group-hover:text-black -translate-x-1/2 duration-500 ease-in-out group-hover:translate-x-0">
                         <span className="flex size-6">
                           <ArrowRight className="m-auto size-3" />
                         </span>

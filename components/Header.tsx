@@ -9,7 +9,6 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 const menuItems = [
   { name: "Home", href: "/" },
   { name: "App", href: "/app" },
-  { name: "About", href: "/about" },
 ];
 
 export const Header = () => {

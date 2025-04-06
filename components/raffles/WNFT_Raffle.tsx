@@ -230,12 +230,6 @@ const WNFT_Raffle = () => {
       ? allNftIds[currentNftIndex]
       : singleNftId;
 
-  useEffect(() => {
-    if (allNftIds) {
-      console.log("NFT IDs in contract:", allNftIds);
-    }
-  }, [allNftIds]);
-
   return (
     <div className="max-w-xs min-w-[320px] rounded-xl border border-zinc-700 bg-zinc-900 overflow-hidden">
       <div className="relative px-3 py-2 border-b border-zinc-700 bg-zinc-800 ">

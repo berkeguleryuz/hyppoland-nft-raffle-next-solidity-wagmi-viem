@@ -137,7 +137,6 @@ export const RaffleSetupCard = () => {
         ],
       };
 
-      console.log("Setting up raffle with config:", config);
       await writeContractAsync(config);
     } catch (err) {
       console.error("Setup raffle error:", err);

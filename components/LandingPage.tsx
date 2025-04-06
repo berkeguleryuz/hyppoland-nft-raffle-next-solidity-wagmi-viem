@@ -7,13 +7,14 @@ import FeaturesSection from "./FeaturesSection";
 import JourneySection from "./JourneySection";
 import Area from "./Area";
 import { Header } from "./Header";
+import Link from "next/link";
 
 const LandingPage = () => {
   return (
     <div className="min-h-screen bg-black text-white relative">
       <div className="absolute inset-0 grid grid-cols-12 gap-4 opacity-5 pointer-events-none">
         {Array.from({ length: 72 }).map((_, i) => (
-          <div key={i} className="col-span-1 bg-[#AFFF81]/20 h-full"></div>
+          <div key={i} className="col-span-1 bg-[#AFFF81]/20 h-full" />
         ))}
       </div>
 
@@ -34,9 +35,11 @@ const LandingPage = () => {
               className="w-24 h-24 ml-2"
               unoptimized
             />
-            <button className="bg-[#AFFF81] text-black px-8 py-3 rounded-full text-lg font-semibold hover:bg-[#AFFF81]/80 transition-colors flex items-center justify-center">
+            <Link
+              href="/app"
+              className="bg-[#AFFF81] text-black px-8 py-3 rounded-full text-lg font-semibold hover:bg-[#AFFF81]/80 transition-colors flex items-center justify-center cursor-pointer flex-shrink-0">
               Join Now
-            </button>
+            </Link>
             <Image
               src="/test.gif"
               alt="arrow-right"
@@ -92,8 +95,8 @@ const LandingPage = () => {
         </footer>
       </div>
 
-      <div className="absolute top-1/4 -left-20 w-40 h-40 bg-[#AFFF81]/20 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-1/4 -right-20 w-40 h-40 bg-[#AFFF81]/20 rounded-full blur-3xl"></div>
+      <div className="absolute top-1/4 -left-20 w-40 h-40 bg-[#AFFF81]/20 rounded-full blur-3xl " />
+      <div className="absolute bottom-1/4 -right-20 w-40 h-40 bg-[#AFFF81]/20 rounded-full blur-3xl" />
     </div>
   );
 };

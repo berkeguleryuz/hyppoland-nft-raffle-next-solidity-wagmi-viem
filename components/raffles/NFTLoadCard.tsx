@@ -119,7 +119,6 @@ export const NFTLoadCard = () => {
         args: [nftContractAddress, parsedIds],
       };
 
-      console.log("Loading NFTs with config:", config);
       await writeContractAsync(config);
     } catch (err) {
       console.error("Load NFTs error:", err);

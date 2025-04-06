@@ -7,6 +7,8 @@ import { TextEffect } from "@/components/ui/text-effect";
 import { AnimatedGroup } from "@/components/ui/animated-group";
 import { Header } from "../Header";
 import { CardComment } from "./Card";
+import WNFT_Raffle from "@/components/raffles/WNFT_Raffle";
+import FNFT_Raffle from "@/components/raffles/FNFT_Raffle";
 
 const transitionVariants = {
   item: {
@@ -76,7 +78,7 @@ export default function AppHero() {
                 height="4095"
               />
             </AnimatedGroup>
-            <div className="absolute inset-0 -z-10 size-full [background:radial-gradient(125%_125%_at_50%_100%,transparent_0%,var(--color-background)_75%)]"></div>
+            <div className="absolute inset-0 -z-10 size-full [background:radial-gradient(125%_125%_at_50%_100%,transparent_0%,var(--color-background)_75%)]" />
             <div className="mx-auto max-w-7xl px-6">
               <div className="text-center sm:mx-auto lg:mr-auto lg:mt-0">
                 <AnimatedGroup variants={transitionVariants}>
@@ -137,8 +139,8 @@ export default function AppHero() {
                       asChild
                       size="lg"
                       className="rounded-xl px-5 text-base hover:bg-[#AFFF81]/90 hover:text-black">
-                      <Link href="#link">
-                        <span className="text-nowrap">Buy Raffle Ticket</span>
+                      <Link href="/nft-raffle-guide">
+                        <span className="text-nowrap">NFT Raffle Guide</span>
                       </Link>
                     </Button>
                   </div>
@@ -149,14 +151,40 @@ export default function AppHero() {
                       asChild
                       size="lg"
                       className="h-10.5 rounded-xl bg-[#AFFF81] text-black px-5 hover:bg-[#AFFF81]/90">
-                      <Link href="#link">
-                        <span className="text-nowrap">Join Free Raffle</span>
+                      <Link href="/free-raffle-guide">
+                        <span className="text-nowrap">Free Raffle Guide</span>
                       </Link>
                     </Button>
                   </div>
                 </AnimatedGroup>
               </div>
             </div>
+
+            <AnimatedGroup
+              variants={{
+                container: {
+                  visible: {
+                    transition: {
+                      staggerChildren: 0.05,
+                      delayChildren: 0.5,
+                    },
+                  },
+                },
+                ...transitionVariants,
+              }}
+              className="flex w-full flex-col items-center justify-center mt-12 mb-16 px-4">
+              <h2 className="text-3xl font-bold text-[#AFFF81] mb-8 text-center">
+                Our Raffles
+              </h2>
+              <div className="flex flex-col md:flex-row gap-6 justify-center items-center w-full max-w-6xl">
+                <div className="md:w-1/2 lg:w-auto flex justify-center">
+                  <FNFT_Raffle />
+                </div>
+                <div className="md:w-1/2 lg:w-auto flex justify-center">
+                  <WNFT_Raffle />
+                </div>
+              </div>
+            </AnimatedGroup>
 
             <div className="flex mt-12 justify-center items-center">
               <CardComment />
@@ -173,8 +201,9 @@ export default function AppHero() {
                   },
                 },
                 ...transitionVariants,
-              }}>
-              <div className="relative -mr-56 mt-8 overflow-hidden px-2 sm:mr-0 sm:mt-12 md:mt-20">
+              }}
+              className="mt-12">
+              <div className="relative -mr-56 mt-8 overflow-hidden px-2 sm:mr-0 sm:mt-12 md:mt-0">
                 <div
                   aria-hidden
                   className="bg-linear-to-b to-black absolute inset-0 z-10 from-transparent from-35%"
@@ -201,6 +230,21 @@ export default function AppHero() {
             </AnimatedGroup>
           </div>
         </section>
+        <footer className="container mx-auto border-t border-[#AFFF81] flex justify-between items-center py-4">
+          <div className="bg-[#AFFF81] h-[50px] w-[100px] flex items-center justify-center">
+            <Image
+              src="/hyppos.svg"
+              alt="logo"
+              width={1000}
+              height={500}
+              className="w-16 h-16"
+            />
+          </div>
+          <div className="flex items-center gap-2">
+            <p className="text-sm">Powered by</p>
+            <Image src="/ocwlogo.png" alt="logo" width={100} height={100} />
+          </div>
+        </footer>
       </main>
     </>
   );

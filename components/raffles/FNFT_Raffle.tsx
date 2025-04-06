@@ -191,7 +191,7 @@ const FNFT_Raffle = () => {
   };
 
   return (
-    <div className="max-w-xs justify-between flex flex-col w-full rounded-xl border border-zinc-700 bg-zinc-900 overflow-hidden">
+    <div className="max-w-xs min-w-[320px] justify-between flex flex-col w-full rounded-xl border border-zinc-700 bg-zinc-900 overflow-hidden">
       <div className="relative px-3 py-2 border-b border-zinc-700 bg-zinc-800">
         <div className="flex items-center justify-between">
           <h2 className="text-base font-bold text-white">Free Raffle</h2>

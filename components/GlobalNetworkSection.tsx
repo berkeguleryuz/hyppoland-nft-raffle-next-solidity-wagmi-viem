@@ -14,7 +14,7 @@ const GlobalNetworkSection = () => {
           <p className="text-gray-300 mb-8">
             Join our raffles and win prizes from across the globe.
           </p>
-          <p className="text-orange-200">With OnChainWin</p>
+          <p className="text-orange-200">with OnChainWin</p>
           <div className="flex gap-4">
             <div className="bg-[#AFFF81]/10 p-4 rounded-lg">
               <h3 className="text-2xl font-bold text-[#AFFF81]">10K+</h3>

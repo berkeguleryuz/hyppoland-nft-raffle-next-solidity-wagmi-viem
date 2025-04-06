@@ -82,7 +82,6 @@ export const NFTApprovalCard = () => {
         args: [operatorAddress, true],
       };
 
-      console.log("Sending approval transaction with config:", config);
       await writeContractAsync(config);
     } catch (err) {
       console.error("Approval error:", err);

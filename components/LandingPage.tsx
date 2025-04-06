@@ -26,7 +26,12 @@ const LandingPage = () => {
           <h1 className="text-5xl md:text-7xl font-bold mb-1">
             Welcome to <span className="text-[#AFFF81]">Hyppo</span>Land
           </h1>
-          <p className="mb-8 text-sm text-lime-200">Powered by OnChainWin</p>
+          <Image
+            src="/PoweredByOnchainwin.png"
+            alt="logo"
+            width={100}
+            height={100}
+          />
           <div className="flex justify-between w-full sm:px-48 px-2 items-center gap-2">
             <Image
               src="/test.gif"
@@ -110,7 +115,12 @@ const LandingPage = () => {
           </div>
           <div className="flex items-center gap-2">
             <p className="text-sm">Powered by</p>
-            <Image src="/ocwlogo.png" alt="logo" width={100} height={100} />
+            <Image
+              src="/PoweredByOnchainwin.png"
+              alt="logo"
+              width={100}
+              height={100}
+            />
           </div>
         </footer>
       </div>

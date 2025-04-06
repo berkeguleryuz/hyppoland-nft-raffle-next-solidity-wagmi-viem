@@ -14,7 +14,7 @@ import { parseEther } from "viem";
 const FreeSetupCard = () => {
   const [prizeAmount, setPrizeAmount] = useState("");
   const [duration, setDuration] = useState("");
-  const [withdrawAmount, setWithdrawAmount] = useState("");
+  const [depositAmount, setDepositAmount] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const { writeContractAsync: startRaffleWrite } = useWriteContract({
@@ -33,16 +33,16 @@ const FreeSetupCard = () => {
     },
   });
 
-  const { writeContractAsync: withdrawFundsWrite } = useWriteContract({
+  const { writeContractAsync: depositFundsWrite } = useWriteContract({
     mutation: {
       onSuccess: () => {
-        toast.success("Funds withdrawn successfully!");
+        toast.success("Funds deposited successfully!");
         setIsLoading(false);
-        setWithdrawAmount("");
+        setDepositAmount("");
       },
       onError: (err) => {
-        console.error("Withdraw funds error:", err);
-        toast.error("Failed to withdraw funds");
+        console.error("Deposit funds error:", err);
+        toast.error("Failed to deposit funds");
         setIsLoading(false);
       },
     },
@@ -71,9 +71,9 @@ const FreeSetupCard = () => {
     }
   };
 
-  const handleWithdrawFunds = async () => {
-    if (!withdrawAmount) {
-      toast.error("Please enter withdraw amount");
+  const handleDepositFunds = async () => {
+    if (!depositAmount) {
+      toast.error("Please enter deposit amount");
       return;
     }
 
@@ -82,14 +82,14 @@ const FreeSetupCard = () => {
       const config = {
         address: Hyppoland_FREE_NFT_CONTRACT_ADDRESS as `0x${string}`,
         abi: Hyppoland_FREE_NFT_CONTRACT_ABI,
-        functionName: "withdrawFunds",
-        value: parseEther(withdrawAmount),
+        functionName: "initialDeposit",
+        value: parseEther(depositAmount),
       };
 
-      await withdrawFundsWrite(config);
+      await depositFundsWrite(config);
     } catch (err) {
-      console.error("Withdraw funds error:", err);
-      toast.error("Failed to withdraw funds");
+      console.error("Deposit funds error:", err);
+      toast.error("Failed to deposit funds");
       setIsLoading(false);
     }
   };
@@ -135,7 +135,7 @@ const FreeSetupCard = () => {
       </div>
 
       <div className="border-t border-zinc-700 pt-6">
-        <h2 className="text-xl font-bold text-white mb-4">Withdraw Funds</h2>
+        <h2 className="text-xl font-bold text-white mb-4">Initial Deposit</h2>
         <div className="space-y-4">
           <div>
             <label className="text-sm text-gray-400 block mb-2">
@@ -144,17 +144,17 @@ const FreeSetupCard = () => {
             <Input
               type="number"
               step="0.01"
-              value={withdrawAmount}
-              onChange={(e) => setWithdrawAmount(e.target.value)}
+              value={depositAmount}
+              onChange={(e) => setDepositAmount(e.target.value)}
               placeholder="0.1"
               className="w-full bg-zinc-800 border-zinc-700"
             />
           </div>
           <Button
-            onClick={handleWithdrawFunds}
-            disabled={isLoading || !withdrawAmount}
+            onClick={handleDepositFunds}
+            disabled={isLoading || !depositAmount}
             className="w-full bg-blue-600 hover:bg-blue-700">
-            {isLoading ? "Withdrawing..." : "Withdraw Funds"}
+            {isLoading ? "Depositing..." : "Deposit Funds"}
           </Button>
         </div>
       </div>

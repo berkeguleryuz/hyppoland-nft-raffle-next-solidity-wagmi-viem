@@ -242,7 +242,7 @@ export default function AppHero() {
           </div>
           <div className="flex items-center gap-2">
             <p className="text-sm">Powered by</p>
-            <Image src="/ocwlogo.png" alt="logo" width={100} height={100} />
+            <Image src="/PoweredByOnchainwin.png" alt="logo" width={100} height={100} />
           </div>
         </footer>
       </main>

@@ -233,7 +233,7 @@ export default function FreeRaffleGuide() {
             </h2>
             <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
               Join our free raffle now and get a chance to win exclusive NFTs
-              without spending any ETH. It&apos;s our way of giving back to the
+              without spending any HYPE. It&apos;s our way of giving back to the
               community!
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

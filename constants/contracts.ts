@@ -4,7 +4,7 @@ export const Hyppoland_FREE_NFT_CONTRACT_ADDRESS =
   "0xbd2c69a610a589d0d2213f561bb14e2366f94ace";
 
 export const Hyppoland_NFT_RAFFLE_CONTRACT_ADDRESS =
-  "0xf142c39f4E84Bd3d9d4AD7533dC240843981f213";
+  "0x702DDfE96B89986AC119bddfaC8CDB01A0745fcb";
 
 export const Hyppoland_FREE_NFT_CONTRACT_ABI = [
   {
@@ -518,6 +518,13 @@ export const Hyppoland_NFT_RAFFLE_CONTRACT_ABI = [
     ],
     name: "fullWinners",
     outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getAllNftIds",
+    outputs: [{ internalType: "uint256[]", name: "", type: "uint256[]" }],
     stateMutability: "view",
     type: "function",
   },

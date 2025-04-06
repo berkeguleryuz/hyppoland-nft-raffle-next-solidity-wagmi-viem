@@ -105,7 +105,6 @@ const FNFT_Raffle = () => {
   } = useWriteContract({
     mutation: {
       onSuccess: () => {
-        toast.success("Free ticket request submitted!");
         setIsLoading(false);
         refetchTicketsSold();
         refetchHasEntered();
@@ -135,7 +134,7 @@ const FNFT_Raffle = () => {
 
     if (isConfirmed) {
       if (toastId) toast.dismiss(toastId);
-      toast.success("Ticket acquired!");
+      toast.success("Ticket acquired successfully!");
 
       refetchTicketsSold();
       refetchHasEntered();
@@ -192,7 +191,7 @@ const FNFT_Raffle = () => {
   };
 
   return (
-    <div className="max-w-xs w-full rounded-xl border border-zinc-700 bg-zinc-900 overflow-hidden">
+    <div className="max-w-xs justify-between flex flex-col w-full rounded-xl border border-zinc-700 bg-zinc-900 overflow-hidden">
       <div className="relative px-3 py-2 border-b border-zinc-700 bg-zinc-800">
         <div className="flex items-center justify-between">
           <h2 className="text-base font-bold text-white">Free Raffle</h2>
@@ -209,7 +208,7 @@ const FNFT_Raffle = () => {
         </div>
       </div>
 
-      <div className="relative aspect-square w-full bg-zinc-800 flex flex-col items-center justify-center">
+      <div className="relative aspect-square w-full -mt-1 bg-zinc-800 flex flex-col items-center justify-center">
         <Image
           src="/bg.jpg"
           alt="Free Raffle Background"
@@ -224,17 +223,17 @@ const FNFT_Raffle = () => {
           </p>
         </div>
 
-        <div className="bg-zinc-800/60 p-6 rounded-2xl flex flex-col items-center z-10">
-          <p className="text-sm text-gray-400 mb-2">Prize Pool</p>
-          <p className="text-4xl font-bold text-white mb-2">
-            {prizeAmount ? formatEther(prizeAmount) : "0"}
-          </p>
-          <p className="text-xl font-medium text-white">HYPE</p>
-        </div>
-
         <div className="absolute bottom-4 left-0 right-0 mx-auto text-center z-10">
           <p className="text-xs text-gray-400">Free entry, real rewards!</p>
         </div>
+      </div>
+
+      <div className="p-1 mt-2 rounded-2xl flex flex-col items-center z-10">
+        <p className="text-sm text-gray-400 mb-2">Prize Pool</p>
+        <p className="text-4xl font-bold text-white mb-2">
+          {prizeAmount ? formatEther(prizeAmount) : "0"}
+        </p>
+        <p className="text-xl font-medium text-white">HYPE</p>
       </div>
 
       <div className="p-3 space-y-3">

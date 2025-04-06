@@ -177,7 +177,10 @@ export const RaffleSetupCard = () => {
         <Input
           type="number"
           value={entryFee}
-          onChange={(e) => setEntryFee(e.target.value)}
+          onChange={(e) => {
+            const value = e.target.value.replace(",", ".");
+            setEntryFee(value);
+          }}
           placeholder="0.1"
           min="0"
           step="0.01"

@@ -16,11 +16,13 @@ import {
 } from "@/constants/contracts";
 import { formatEther, parseGwei } from "viem";
 import Image from "next/image";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const WNFT_Raffle = () => {
   const { address } = useAccount();
   const [numberOfTickets, setNumberOfTickets] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
+  const [currentNftIndex, setCurrentNftIndex] = useState(0);
   const [remaining, setRemaining] = useState({
     days: 0,
     hours: 0,
@@ -33,11 +35,25 @@ const WNFT_Raffle = () => {
     functionName: "minimumEntryFee",
   }) as { data: bigint };
 
-  const { data: raffleEnded } = useReadContract({
+  const { data: totalEntries, refetch: refetchTotalEntries } = useReadContract({
     address: Hyppoland_NFT_RAFFLE_CONTRACT_ADDRESS as `0x${string}`,
     abi: Hyppoland_NFT_RAFFLE_CONTRACT_ABI,
-    functionName: "raffleEnded",
-  }) as { data: boolean };
+    functionName: "totalEntries",
+  }) as { data: bigint; refetch: () => Promise<{ data: bigint }> };
+
+  const { data: raffleEndedData, refetch: refetchRaffleStatus } =
+    useReadContract({
+      address: Hyppoland_NFT_RAFFLE_CONTRACT_ADDRESS as `0x${string}`,
+      abi: Hyppoland_NFT_RAFFLE_CONTRACT_ABI,
+      functionName: "raffleEnded",
+    }) as { data: boolean; refetch: () => Promise<{ data: boolean }> };
+
+  const { data: remainingTimeData, refetch: refetchRemainingTime } =
+    useReadContract({
+      address: Hyppoland_NFT_RAFFLE_CONTRACT_ADDRESS as `0x${string}`,
+      abi: Hyppoland_NFT_RAFFLE_CONTRACT_ABI,
+      functionName: "getRemainingTime",
+    }) as { data: bigint; refetch: () => Promise<{ data: bigint }> };
 
   const { data: nftContract } = useReadContract({
     address: Hyppoland_NFT_RAFFLE_CONTRACT_ADDRESS as `0x${string}`,
@@ -55,20 +71,8 @@ const WNFT_Raffle = () => {
   const { data: allNftIds } = useReadContract({
     address: Hyppoland_NFT_RAFFLE_CONTRACT_ADDRESS as `0x${string}`,
     abi: Hyppoland_NFT_RAFFLE_CONTRACT_ABI,
-    functionName: "nftIds",
+    functionName: "getAllNftIds",
   }) as { data: bigint[] };
-
-  const { data: remainingTimeData } = useReadContract({
-    address: Hyppoland_NFT_RAFFLE_CONTRACT_ADDRESS as `0x${string}`,
-    abi: Hyppoland_NFT_RAFFLE_CONTRACT_ABI,
-    functionName: "getRemainingTime",
-  }) as { data: bigint };
-
-  const { data: totalEntries, refetch: refetchTotalEntries } = useReadContract({
-    address: Hyppoland_NFT_RAFFLE_CONTRACT_ADDRESS as `0x${string}`,
-    abi: Hyppoland_NFT_RAFFLE_CONTRACT_ABI,
-    functionName: "totalEntries",
-  }) as { data: bigint; refetch: () => Promise<{ data: bigint }> };
 
   useEffect(() => {
     const updateRemainingTime = () => {
@@ -76,6 +80,7 @@ const WNFT_Raffle = () => {
         const totalSeconds = Number(remainingTimeData);
         if (totalSeconds <= 0) {
           setRemaining({ days: 0, hours: 0, minutes: 0 });
+          refetchRaffleStatus();
           return;
         }
 
@@ -87,11 +92,16 @@ const WNFT_Raffle = () => {
       }
     };
 
-    const interval = setInterval(updateRemainingTime, 60000);
+    const interval = setInterval(() => {
+      updateRemainingTime();
+      refetchTotalEntries();
+      refetchRaffleStatus();
+    }, 60000);
+
     updateRemainingTime();
 
     return () => clearInterval(interval);
-  }, [remainingTimeData]);
+  }, [remainingTimeData, refetchRaffleStatus, refetchTotalEntries]);
 
   const {
     data: hash,
@@ -100,9 +110,10 @@ const WNFT_Raffle = () => {
   } = useWriteContract({
     mutation: {
       onSuccess: () => {
-        toast.success("Tickets purchased!");
         setIsLoading(false);
         refetchTotalEntries();
+        refetchRaffleStatus();
+        refetchRemainingTime();
       },
       onError: (err) => {
         const errorMessage = err?.message || "";
@@ -128,15 +139,23 @@ const WNFT_Raffle = () => {
 
     if (isConfirmed) {
       if (toastId) toast.dismiss(toastId);
-      toast.success("Tickets purchased!");
+      toast.success("Tickets purchased successfully!");
 
       refetchTotalEntries();
+      refetchRaffleStatus();
+      refetchRemainingTime();
     }
 
     return () => {
       if (toastId) toast.dismiss(toastId);
     };
-  }, [isConfirming, isConfirmed, refetchTotalEntries]);
+  }, [
+    isConfirming,
+    isConfirmed,
+    refetchTotalEntries,
+    refetchRaffleStatus,
+    refetchRemainingTime,
+  ]);
 
   const calculateTotalPrice = () => {
     if (!minimumEntryFee || !numberOfTickets || parseInt(numberOfTickets) <= 0)
@@ -176,74 +195,134 @@ const WNFT_Raffle = () => {
     }
   };
 
-  const featuredNftId =
-    singleNftId ||
-    (Array.isArray(allNftIds) && allNftIds.length > 0 ? allNftIds[0] : null);
-
   const getNftImageUrl = (nftId: bigint) => {
     return nftContract === "0x4A84cF3660D7DFFf869151Fd6DE8F4690c6d8b71"
       ? `https://bafybeifhqoqwtxiultgggtnnbkysqwh73yml467djeas2cbpgkmtwpemxa.ipfs.dweb.link/${nftId}.png`
-      : `https://nft.hyppoland.com/nft/${nftContract}/${nftId}`;
+      : `https://static.drip.trade/collections/hyppos_pfp.png`;
   };
 
+  useEffect(() => {
+    if (
+      Array.isArray(allNftIds) &&
+      allNftIds.length > 0 &&
+      currentNftIndex >= allNftIds.length
+    ) {
+      setCurrentNftIndex(0);
+    }
+  }, [allNftIds, currentNftIndex]);
+
+  const nextNft = () => {
+    if (Array.isArray(allNftIds) && allNftIds.length > 0) {
+      setCurrentNftIndex((prev) => (prev + 1) % allNftIds.length);
+    }
+  };
+
+  const prevNft = () => {
+    if (Array.isArray(allNftIds) && allNftIds.length > 0) {
+      setCurrentNftIndex(
+        (prev) => (prev - 1 + allNftIds.length) % allNftIds.length,
+      );
+    }
+  };
+
+  const currentNftId =
+    Array.isArray(allNftIds) && allNftIds.length > 0
+      ? allNftIds[currentNftIndex]
+      : singleNftId;
+
+  useEffect(() => {
+    if (allNftIds) {
+      console.log("NFT IDs in contract:", allNftIds);
+    }
+  }, [allNftIds]);
+
   return (
-    <div className="max-w-xs rounded-xl border border-zinc-700 bg-zinc-900 overflow-hidden">
-      <div className="relative px-3 py-2 border-b border-zinc-700 bg-zinc-800">
+    <div className="max-w-xs min-w-[320px] rounded-xl border border-zinc-700 bg-zinc-900 overflow-hidden">
+      <div className="relative px-3 py-2 border-b border-zinc-700 bg-zinc-800 ">
         <div className="flex items-center justify-between">
           <h2 className="text-base font-bold text-white">NFT Raffle</h2>
           <div className="flex items-center space-x-1.5">
             <div
               className={`h-2 w-2 rounded-full ${
-                raffleEnded ? "bg-red-500" : "bg-green-500"
+                raffleEndedData ? "bg-red-500" : "bg-green-500"
               }`}
             />
             <span className="text-xs text-gray-400">
-              {raffleEnded ? "Ended" : "Active"}
+              {raffleEndedData ? "Ended" : "Active"}
             </span>
           </div>
         </div>
       </div>
 
-      {nftContract && featuredNftId && (
-        <div className="relative aspect-square w-full">
-          <Image
-            src={getNftImageUrl(featuredNftId)}
-            alt={`Featured NFT #${featuredNftId.toString()}`}
-            fill
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 to-transparent opacity-60" />
+      <div className="relative items-start justify-start aspect-square w-full">
+        <Image
+          src={
+            currentNftId
+              ? getNftImageUrl(currentNftId)
+              : "https://static.drip.trade/collections/hyppos_pfp.png"
+          }
+          alt={`NFT Raffle`}
+          fill
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 to-transparent opacity-60" />
 
-          <div className="absolute top-3 right-3">
-            <p className="text-xs bg-zinc-700/80 rounded-md px-2 py-1 text-gray-300">
-              {totalEntries ? Number(totalEntries) : 0} tickets sold
+        {raffleEndedData && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="bg-black/70 text-white py-3 px-5 rounded-lg text-center shadow-lg border border-zinc-700 backdrop-blur-sm">
+              <p className="font-medium text-base">Raffle is not active</p>
+              <p className="text-xs text-gray-300 mt-1">
+                Check back later for the next round
+              </p>
+            </div>
+          </div>
+        )}
+
+        {Array.isArray(allNftIds) && allNftIds.length > 1 && (
+          <>
+            <button
+              onClick={prevNft}
+              className="absolute left-2 top-1/2 -translate-y-1/2 bg-[#AFFF81] hover:bg-[#AFFF81]/80 rounded-full p-2.5 focus:outline-none z-10 shadow-lg">
+              <ChevronLeft className="w-7 h-7 text-black" />
+            </button>
+            <button
+              onClick={nextNft}
+              className="absolute right-2 top-1/2 -translate-y-1/2 bg-[#AFFF81] hover:bg-[#AFFF81]/80 rounded-full p-2.5 focus:outline-none z-10 shadow-lg">
+              <ChevronRight className="w-7 h-7 text-black" />
+            </button>
+          </>
+        )}
+
+        <div className="absolute top-3 right-3">
+          <p className="text-xs bg-zinc-700/80 rounded-md px-2 py-1 text-gray-300">
+            {totalEntries ? Number(totalEntries) : 0} tickets sold
+          </p>
+        </div>
+
+        <div className="absolute bottom-0 left-0 right-0 p-3 flex justify-between items-end">
+          <div>
+            <p className="text-xs text-gray-300">NFT ID</p>
+            <p className="text-sm font-mono text-white">
+              {currentNftId ? `#${currentNftId.toString()}` : "Coming soon"}
             </p>
           </div>
 
-          <div className="absolute bottom-0 left-0 right-0 p-3 flex justify-between items-end">
-            <div>
-              <p className="text-xs text-gray-300">NFT ID</p>
-              <p className="text-sm font-mono text-white">
-                #{featuredNftId.toString()}
+          {Array.isArray(allNftIds) && allNftIds.length > 1 && (
+            <div className="flex items-center gap-1">
+              <p className="text-xs text-black bg-[#AFFF81] rounded-md px-2 py-1">
+                {`${currentNftIndex + 1}/${allNftIds.length}`}
               </p>
             </div>
-            <div className="flex items-center gap-1">
-              {Array.isArray(allNftIds) && allNftIds.length > 1 && (
-                <p className="text-xs text-white bg-blue-600 rounded-md px-1.5 py-0.5">
-                  +{allNftIds.length - 1} more
-                </p>
-              )}
-            </div>
-          </div>
+          )}
         </div>
-      )}
+      </div>
 
       <div className="p-3 space-y-3">
         <div className="bg-zinc-800/50 rounded-md p-2.5">
           <div className="flex flex-col items-center">
             <div className="w-full flex justify-between items-center mb-1">
               <p className="text-xs text-gray-400">Ends in:</p>
-              {raffleEnded && (
+              {raffleEndedData && (
                 <p className="text-xs font-medium text-gray-400">Ended</p>
               )}
             </div>
@@ -282,7 +361,10 @@ const WNFT_Raffle = () => {
             <Input
               type="number"
               value={numberOfTickets}
-              onChange={(e) => setNumberOfTickets(e.target.value)}
+              onChange={(e) => {
+                const value = e.target.value.replace(",", ".");
+                setNumberOfTickets(value);
+              }}
               placeholder="Ticket quantity"
               min="1"
               className="flex-1 h-8 text-xs bg-zinc-800 border-zinc-700 text-white placeholder:text-gray-500"
@@ -318,7 +400,7 @@ const WNFT_Raffle = () => {
             !address ||
             !numberOfTickets ||
             isLoading ||
-            raffleEnded
+            raffleEndedData
           }
           className="w-full bg-[#AFFF81] hover:bg-[#AFFF81]/80 h-9 text-black text-sm cursor-pointer">
           {isPending || isLoading ? "Processing..." : "Buy Tickets"}

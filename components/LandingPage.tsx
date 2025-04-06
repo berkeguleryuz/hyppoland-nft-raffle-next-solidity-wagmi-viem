@@ -32,6 +32,7 @@ const LandingPage = () => {
               width={500}
               height={500}
               className="w-24 h-24 ml-2"
+              unoptimized
             />
             <button className="bg-[#AFFF81] text-black px-8 py-3 rounded-full text-lg font-semibold hover:bg-[#AFFF81]/80 transition-colors flex items-center justify-center">
               Join Now
@@ -42,6 +43,7 @@ const LandingPage = () => {
               width={500}
               height={500}
               className="w-24 h-24 ml-2"
+              unoptimized
             />
           </div>
         </main>

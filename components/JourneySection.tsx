@@ -21,6 +21,7 @@ const JourneySection = () => {
             width={500}
             height={500}
             className="rounded-lg"
+            unoptimized
           />
         </div>
         <div className="flex-1">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   useAccount,
   useWaitForTransactionReceipt,
@@ -47,6 +47,23 @@ export const RaffleSetupCard = () => {
     useWaitForTransactionReceipt({
       hash,
     });
+
+  useEffect(() => {
+    let toastId: string | undefined;
+
+    if (isConfirming) {
+      toastId = toast.loading("Setting up raffle...");
+    }
+
+    if (isConfirmed) {
+      if (toastId) toast.dismiss(toastId);
+      toast.success("Raffle setup successful!");
+    }
+
+    return () => {
+      if (toastId) toast.dismiss(toastId);
+    };
+  }, [isConfirming, isConfirmed]);
 
   const validateAndParseNftIds = (ids: string): number[] | null => {
     try {
@@ -134,13 +151,6 @@ export const RaffleSetupCard = () => {
       <h2 className="text-xl font-bold text-white">Setup Raffle</h2>
 
       <div className="p-3 bg-zinc-800 rounded-lg">
-        <p className="text-sm text-gray-400">Connected Wallet:</p>
-        <p className="text-sm font-mono text-white">
-          {address ? address : "Not connected"}
-        </p>
-      </div>
-
-      <div className="p-3 bg-zinc-800 rounded-lg">
         <p className="text-sm text-gray-400">Target Contract (Raffle):</p>
         <p className="text-sm font-mono text-white break-all">
           {Hyppoland_NFT_RAFFLE_CONTRACT_ADDRESS}
@@ -208,13 +218,6 @@ export const RaffleSetupCard = () => {
         className="w-full bg-blue-600 hover:bg-blue-700 mt-auto">
         {isPending || isLoading ? "Setting up..." : "Setup Raffle"}
       </Button>
-
-      {isConfirming && (
-        <p className="text-sm text-yellow-400">Waiting for confirmation...</p>
-      )}
-      {isConfirmed && (
-        <p className="text-sm text-green-400">Raffle setup successful!</p>
-      )}
     </div>
   );
 };

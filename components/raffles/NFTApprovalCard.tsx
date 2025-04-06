@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   useAccount,
   useWaitForTransactionReceipt,
@@ -40,6 +40,23 @@ export const NFTApprovalCard = () => {
       hash,
     });
 
+  useEffect(() => {
+    let toastId: string | undefined;
+    
+    if (isConfirming) {
+      toastId = toast.loading("Approving...");
+    }
+    
+    if (isConfirmed) {
+      if (toastId) toast.dismiss(toastId);
+      toast.success("Approval successful!");
+    }
+    
+    return () => {
+      if (toastId) toast.dismiss(toastId);
+    };
+  }, [isConfirming, isConfirmed]);
+
   const approveNFTs = async () => {
     if (!nftContractAddress) {
       toast.error("Please enter NFT contract address");
@@ -78,13 +95,6 @@ export const NFTApprovalCard = () => {
     <div className="p-6 rounded-lg border border-zinc-700 bg-zinc-900 flex flex-col gap-4">
       <h2 className="text-xl font-bold text-white">NFT Approval</h2>
 
-      <div className="p-3 bg-zinc-800 rounded-lg">
-        <p className="text-sm text-gray-400">Connected Wallet:</p>
-        <p className="text-sm font-mono text-white">
-          {address ? address : "Not connected"}
-        </p>
-      </div>
-
       <div className="space-y-2">
         <label className="text-sm text-gray-400">NFT Contract Address</label>
         <Input
@@ -120,13 +130,6 @@ export const NFTApprovalCard = () => {
         className="w-full bg-blue-600 hover:bg-blue-700 mt-auto">
         {isPending || isApproving ? "Approving..." : "Approve NFTs"}
       </Button>
-
-      {isConfirming && (
-        <p className="text-sm text-yellow-400">Waiting for confirmation...</p>
-      )}
-      {isConfirmed && (
-        <p className="text-sm text-green-400">Approval successful!</p>
-      )}
     </div>
   );
 };

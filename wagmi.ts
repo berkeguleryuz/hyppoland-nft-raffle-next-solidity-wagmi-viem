@@ -1,5 +1,4 @@
 import { getDefaultConfig } from "@rainbow-me/rainbowkit";
-import { mainnet } from "wagmi/chains";
 import { defineChain } from "viem";
 
 export const hyperliquid = defineChain({
@@ -24,6 +23,6 @@ export const hyperliquid = defineChain({
 export const config = getDefaultConfig({
   appName: "HyppoLand",
   projectId: "YOUR_PROJECT_ID",
-  chains: [mainnet, hyperliquid],
+  chains: [hyperliquid],
   ssr: true,
 });

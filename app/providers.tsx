@@ -6,6 +6,7 @@ import { WagmiProvider } from "wagmi";
 import { RainbowKitProvider, Theme } from "@rainbow-me/rainbowkit";
 
 import { config } from "../wagmi";
+import { Toaster } from "react-hot-toast";
 
 const queryClient = new QueryClient();
 
@@ -70,6 +71,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider theme={myCustomTheme} locale="en">
           {children}
+          <Toaster />
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>

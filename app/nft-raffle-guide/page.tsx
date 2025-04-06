@@ -191,7 +191,9 @@ export default function NFTRaffleGuide() {
                     <h3 className="text-lg font-medium text-white">
                       Winner Selection
                     </h3>
-                    <p className="text-gray-300">Automatic at end of period</p>
+                    <p className="text-gray-300">
+                      Automatic at end of period with last ticket.
+                    </p>
                   </div>
                 </div>
 
@@ -229,7 +231,10 @@ export default function NFTRaffleGuide() {
                 <h3 className="text-xl font-medium text-white mb-2">
                   Smart Contract Process
                 </h3>
-                <p className="text-gray-300">Smart contracts a</p>
+                <p className="text-gray-300">
+                  Smart contracts are deployed on Hyperliquid and powered by
+                  OnChainWin.
+                </p>
               </div>
 
               <div>

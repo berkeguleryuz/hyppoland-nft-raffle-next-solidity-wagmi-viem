@@ -8,6 +8,7 @@ import JourneySection from "./JourneySection";
 import Area from "./Area";
 import { Header } from "./Header";
 import Link from "next/link";
+import CallToActionSection from "./CallToActionSection";
 
 const LandingPage = () => {
   return (
@@ -53,23 +54,39 @@ const LandingPage = () => {
 
         <div className="container mx-auto px-6 py-20 z-20">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
-            {Array.from({ length: 3 }).map((_, i) => (
-              <div
-                key={i}
-                className={`aspect-square rounded-lg p-4 ${
-                  i % 2 === 0 ? "bg-[#AFFF81]/20" : "bg-[#AFFF81]/20"
-                } transform hover:scale-105 transition-transform`}>
-                <div className="w-full h-full rounded-lg bg-gradient-to-br from-[#AFFF81] via-lime-500 to-[#AFFF81] flex items-center justify-center">
-                  <Image
-                    src="/placeholder.png"
-                    alt="logo"
-                    width={500}
-                    height={500}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+            <div className="aspect-square rounded-lg p-4 bg-[#AFFF81]/20 transform hover:scale-105 transition-transform">
+              <div className="w-full h-full rounded-lg bg-gradient-to-br from-black to-black/80 flex items-center justify-center overflow-hidden">
+                <Image
+                  src="/1.png"
+                  alt="Hyppos NFT #1"
+                  width={500}
+                  height={500}
+                  className="w-full h-full object-cover"
+                />
               </div>
-            ))}
+            </div>
+            <div className="aspect-square rounded-lg p-4 bg-[#AFFF81]/20 transform hover:scale-105 transition-transform">
+              <div className="w-full h-full rounded-lg bg-gradient-to-br from-black to-black/80 flex items-center justify-center overflow-hidden">
+                <Image
+                  src="/2.png"
+                  alt="Hyppos NFT #2"
+                  width={500}
+                  height={500}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+            <div className="aspect-square rounded-lg p-4 bg-[#AFFF81]/20 transform hover:scale-105 transition-transform">
+              <div className="w-full h-full rounded-lg bg-gradient-to-br from-black to-black/80 flex items-center justify-center overflow-hidden">
+                <Image
+                  src="/3.png"
+                  alt="Hyppos NFT #3"
+                  width={500}
+                  height={500}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
           </div>
         </div>
 
@@ -78,6 +95,9 @@ const LandingPage = () => {
         <GlobalNetworkSection />
         <FeaturesSection />
         <JourneySection />
+
+        <CallToActionSection />
+
         <footer className="container mx-auto border-t border-[#AFFF81] flex justify-between items-center py-4">
           <div className="bg-[#AFFF81] h-[50px] w-[100px] flex items-center justify-center">
             <Image

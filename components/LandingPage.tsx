@@ -58,7 +58,7 @@ const LandingPage = () => {
         </main>
 
         <div className="container mx-auto px-6 py-20 z-20">
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="aspect-square rounded-lg p-4 bg-[#AFFF81]/20 transform hover:scale-105 transition-transform">
               <div className="w-full h-full rounded-lg bg-gradient-to-br from-black to-black/80 flex items-center justify-center overflow-hidden">
                 <Image

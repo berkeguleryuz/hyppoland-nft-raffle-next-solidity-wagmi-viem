@@ -35,9 +35,7 @@ export const RaffleSetupCard = () => {
       },
       onError: (err) => {
         console.error("Transaction error:", err);
-        toast.error(
-          "Failed to setup raffle: " + (err?.message || "Unknown error"),
-        );
+        toast.error("Failed to setup raffle");
         setIsLoading(false);
       },
     },
@@ -138,9 +136,7 @@ export const RaffleSetupCard = () => {
       };
 
       await writeContractAsync(config);
-    } catch (err) {
-      console.error("Setup raffle error:", err);
-      toast.error("Failed to setup raffle");
+    } catch {
       setIsLoading(false);
     }
   };

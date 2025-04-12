@@ -20,7 +20,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const WNFT_Raffle = () => {
   const { address } = useAccount();
-  const [numberOfTickets, setNumberOfTickets] = useState<string>("");
+  const [numberOfTickets, setNumberOfTickets] = useState<string>("1");
   const [isLoading, setIsLoading] = useState(false);
   const [currentNftIndex, setCurrentNftIndex] = useState(0);
   const [remaining, setRemaining] = useState({

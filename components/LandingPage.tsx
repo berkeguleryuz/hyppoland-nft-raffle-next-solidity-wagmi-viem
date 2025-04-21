@@ -114,7 +114,6 @@ const LandingPage = () => {
             />
           </div>
           <div className="flex items-center gap-2">
-            <p className="text-sm">Powered by</p>
             <Image
               src="/PoweredByOnchainwin.png"
               alt="logo"
